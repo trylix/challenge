@@ -25,3 +25,23 @@ export const puppyInvalidIngredientsResponse = {
     results: [],
   },
 };
+
+export const giphyOkResponse = {
+  status: 200,
+  response: {
+    data: [
+      {
+        images: {
+          original: {
+            url: 'teste',
+          },
+        },
+      },
+    ],
+  },
+};
+
+export const giphyBadRequestResponse = {
+  status: 400,
+  response: {},
+};
