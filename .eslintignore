@@ -1,0 +1,7 @@
+**/*.js
+**/*.mdx
+build
+node_modules
+scripts
+public
+config
