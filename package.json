@@ -1,0 +1,8 @@
+{
+  "name": "challenge",
+  "version": "1.0.0",
+  "main": "index.js",
+  "repository": "https://github.com/trylix/challenge",
+  "author": "Brendenson Andrade <contato@brendenson.dev>",
+  "license": "MIT"
+}
