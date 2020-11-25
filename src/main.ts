@@ -1,6 +1,6 @@
-import "dotenv/config";
+import 'dotenv/config';
 
-import AppModule from "./app.module";
+import AppModule from './app.module';
 
 const port = process.env.PORT || 8000;
 

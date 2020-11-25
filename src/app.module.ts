@@ -7,6 +7,7 @@ import * as express from 'express';
 import * as helmet from 'helmet';
 import * as morgan from 'morgan';
 import { HealthController } from 'src/modules/health/health.controller';
+import { RecipeController } from 'src/modules/recipe/recipe.controller';
 
 const app = express();
 
@@ -16,6 +17,6 @@ app.use(helmet());
 app.use(cors());
 app.use(bodyParser.json());
 
-attachControllers(app, [HealthController]);
+attachControllers(app, [HealthController, RecipeController]);
 
 export default app;
