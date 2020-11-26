@@ -1,10 +1,13 @@
 import { Injectable } from '@decorators/di';
+import { plainToClass } from 'class-transformer';
 import { AxiosAdapter } from 'src/adapters/axios.adapter';
 import { HttpException } from 'src/exceptions';
+import { GiphyService } from 'src/modules/giphy/giphy.service';
+import { RecipeDto } from 'src/modules/recipe/dto/recipe.dto';
 
 @Injectable()
 export class PuppyService extends AxiosAdapter {
-  constructor() {
+  constructor(private giphyService: GiphyService) {
     super(process.env.RECIPE_PUPPY_API_URL);
   }
 
@@ -25,6 +28,20 @@ export class PuppyService extends AxiosAdapter {
       );
     }
 
-    return data.results;
+    const recipes = await Promise.all(
+      data.results.map(async (recipe: any) => {
+        const recipeDto = plainToClass(RecipeDto, recipe);
+
+        const recipeGif = await this.giphyService.getGifFromTitle(
+          recipeDto.title,
+        );
+
+        recipeDto.gif = recipeGif;
+
+        return recipeDto;
+      }),
+    );
+
+    return recipes;
   }
 }

@@ -1,6 +1,6 @@
 import { Container } from '@decorators/di';
 import * as moxios from 'moxios';
-import { puppyBadRequestResponse, puppyInvalidIngredientsResponse, puppyOkResponse } from 'src/mocks';
+import { giphyOkResponse, puppyBadRequestResponse, puppyInvalidIngredientsResponse, puppyOkResponse } from 'src/mocks';
 
 import { PuppyService } from './puppy.service';
 
@@ -23,10 +23,35 @@ describe('PuppyService (unit)', () => {
   it('should be return a valid recipe', async () => {
     moxios.stubRequest(/\?i=/, puppyOkResponse);
 
+    moxios.stubRequest(/gifs\/search\?q=/, giphyOkResponse);
+
     const recipes = await puppyService.getRecipesFromIngredients(testStr);
 
     expect(recipes).toEqual(
-      expect.objectContaining(puppyOkResponse.response.results),
+      expect.objectContaining([
+        {
+          gif: 'teste',
+          ingredients: [
+            'black pepper',
+            'cream cheese',
+            'eggs',
+            'garlic',
+            'italian seasoning',
+            'milk',
+            'olive oil',
+            'onions',
+            'parmesan cheese',
+            'red pepper',
+            'salt',
+            'tomato',
+            'vermicelli',
+            'zucchini',
+          ],
+          link:
+            'http://find.myrecipes.com/recipes/recipefinder.dyn?action=displayRecipe&recipe_id=520763',
+          title: 'Vegetable-Pasta Oven Omelet',
+        },
+      ]),
     );
   });
 

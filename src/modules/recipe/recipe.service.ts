@@ -1,9 +1,12 @@
 import { Injectable } from '@decorators/di';
 import { HttpException } from 'src/exceptions';
+import { PuppyService } from 'src/modules/puppy/puppy.service';
 import { transformToArray } from 'src/shared/utils';
 
 @Injectable()
 export class RecipeService {
+  constructor(private puppyService: PuppyService) {}
+
   async makeRecipeList(ingredients: string) {
     const keywords = transformToArray(ingredients);
 
@@ -21,8 +24,13 @@ export class RecipeService {
       );
     }
 
+    const recipes = await this.puppyService.getRecipesFromIngredients(
+      ingredients,
+    );
+
     return {
       keywords,
+      recipes,
     };
   }
 }

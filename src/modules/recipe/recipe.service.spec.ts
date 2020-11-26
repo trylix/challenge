@@ -1,6 +1,10 @@
 import { Container } from '@decorators/di';
+import * as moxios from 'moxios';
+import { giphyOkResponse, puppyOkResponse } from 'src/mocks';
 
 import { RecipeService } from './recipe.service';
+
+jest.mock('src/adapters/axios.adapter');
 
 const testStr = 'teste,teste,teste';
 
@@ -12,9 +16,18 @@ describe('RecipeService (unit)', () => {
   let recipeService: RecipeService | null;
   beforeEach(() => {
     recipeService = Container.get<RecipeService>(RecipeService);
+    moxios.install();
+  });
+
+  afterEach(() => {
+    moxios.uninstall();
   });
 
   it('should be return a valid ingredients array', async () => {
+    moxios.stubRequest(/\?i=/, puppyOkResponse);
+
+    moxios.stubRequest(/gifs\/search\?q=/, giphyOkResponse);
+
     const recipes = await recipeService.makeRecipeList(testStr);
 
     expect(recipes).toEqual(expect.objectContaining(expectedResponse));
