@@ -1,0 +1,3 @@
+FROM brendenson/devmuch
+
+CMD ["npm", "run", "test"]
